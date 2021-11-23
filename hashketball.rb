@@ -127,3 +127,52 @@ def game_hash
 end
 
 # Write code here
+
+######## HELPER METHODS ########
+def all_players
+  # returns an array of all the players regardless of which team they're on
+  game_hash[:home][:players] + game_hash[:away][:players]
+end
+
+def found_player player
+  # returns the hash of the player which passes the find condition below
+  all_players.find {|player_hash| player_hash[:player_name] == player}
+end
+
+def find_team team_name
+  # returns an array containing the team's location as the 1st value
+  # and the team's info as the 2nd
+  game_hash.find {|location, team_info| team_info[:team_name] == team_name}
+end
+
+######## LAB DELIVERABLES ########
+def num_points_scored player
+  points_of_player = found_player(player)
+  points_of_player[:points]
+end
+
+def shoe_size player
+  found_player(player)[:shoe]
+end
+
+def team_colors team_name
+  find_team(team_name)[1][:colors]
+end
+
+def team_names
+  game_hash.map {|location, team_info| team_info[:team_name]}
+end
+
+def player_numbers team_name
+  found_team = find_team(team_name)
+  found_team[1][:players].map {|player_hash| player_hash[:number]}
+end
+
+def player_stats player
+  found_player(player)
+end
+
+def big_shoe_rebounds
+  player_with_largest_shoe_size = all_players.max_by {|player_hash| player_hash[:shoe]}
+  player_with_largest_shoe_size[:rebounds]
+end
